@@ -7,6 +7,7 @@
 *.fls
 *.out
 *.toc
+*.synctex.gz
 
 ## BibLaTeX auxiliary files:
 *.bbl
@@ -22,6 +23,7 @@
 ## Vim & Emacs temp files:
 .*sw[op]
 *~
+*.json
 
 ### Mac OS X ###
 ## Mac OS X metadata files:
