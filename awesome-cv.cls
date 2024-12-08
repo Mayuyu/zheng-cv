@@ -746,7 +746,7 @@
 }{%
   \end{itemize}
   \end{justify}
-  \vspace{-4.0mm}
+  \vspace{1.0mm}
 }
 
 
@@ -800,4 +800,177 @@
       \\\\\\
       \letterenclosurestyle{\@letterenclname: \@letterenclosure} \\
     }
+}
+
+%-------------------------------------------------------------------------------
+%                Bibliography
+%-------------------------------------------------------------------------------
+%\RequirePackage[style=verbose, maxnames=99, sorting=ydnt]{biblatex}
+\RequirePackage[ % BibLaTeX
+	sorting=ydnt, % Sorts entries by year (descending order), name, title
+	style=numeric,
+	doi=false,
+	isbn=true,
+	url=false,
+	eprint=false,
+	backref = false, % include back references in bibliography
+	maxcitenames=3, % affects only the citations in the document body
+	maxbibnames=99, % affects only the bibliography, pass 99 to print all
+	hyperref=true,
+	block=none,
+	backend=biber % {Options: bibtex, biber}
+	]{biblatex}
+
+% Avoid splitting entries across page break (only for 3 or fewer lines)
+% Tip: http://tex.stackexchange.com/a/51261
+\AtBeginEnvironment{thebibliography}{%
+   \clubpenalty10000
+   \@clubpenalty \clubpenalty
+   \widowpenalty10000
+   \interlinepenalty5000}
+
+% Customized format, based on Fancy CV template created by Adrien Friggeri
+\setlength{\biblabelsep}{\labelsep}
+\DeclareFieldFormat[article]{labelnumber}{\entrytitlestyle{#1}}
+\DeclareFieldFormat[inproceedings]{labelnumber}{\entrytitlestyle{#1}}
+\DeclareFieldFormat[misc]{labelnumber}{\entrytitlestyle{#1}}
+\DeclareFieldFormat[report]{labelnumber}{\entrytitlestyle{#1}}
+\DeclareFieldFormat[incollection]{labelnumber}{\entrytitlestyle{#1}}
+\DeclareFieldFormat[unpublished]{labelnumber}{\entrytitlestyle{#1}}
+
+\DeclareFieldFormat[article]{title}{#1\par}
+\DeclareFieldFormat[inproceedings]{title}{#1\par}
+\DeclareFieldFormat[misc]{title}{#1\par}
+\DeclareFieldFormat[report]{title}{#1\par}
+\DeclareFieldFormat[incollection]{title}{#1\par}
+\DeclareFieldFormat[unpublished]{title}{#1\par}
+
+\DeclareBibliographyDriver{article}{%
+  \entrytitlestyle{\printfield{title}}%
+  \newblock%
+  \entrypositionstyle{\printnames{author}}%
+  \par%
+  \newblock%
+  \descriptionstyle{%
+    \usebibmacro{journal+issuetitle}%
+    \setunit{\space}%
+    \printfield{pages}%
+    \newunit%
+    \printlist{publisher}%
+    \setunit*{\addcomma\space}%
+    \printfield{year}%
+    \newunit%
+    \usebibmacro{finentry}
+  }
+  \par\vspace{0.3\baselineskip}
+}
+
+\DeclareBibliographyDriver{inproceedings}{%
+  \entrytitlestyle{\printfield{title}}%
+  \newblock%
+  \entrypositionstyle{\printnames{author}}%
+  \par%
+  \newblock%
+  \descriptionstyle{%
+    \fontsize{8pt}{1em}\bodyfontlight\color{graytext}%
+    \printfield{booktitle}%
+    \setunit{\addcomma\space}%
+    \printfield{year}%
+    \setunit{\addcomma\space}%
+    \printlist{location}%
+    \newunit%
+    \usebibmacro{finentry}
+  }
+  \par\vspace{0.3\baselineskip}
+}
+
+\DeclareBibliographyDriver{incollection}{%
+  \entrytitlestyle{\printfield{title}}%
+  \newblock%
+  \entrypositionstyle{\printnames{author}}%
+  \par%
+  \newblock%
+  \descriptionstyle{%
+    \fontsize{8pt}{1em}\bodyfontlight\color{graytext}%
+    \printfield{booktitle}%
+    \setunit{\addcomma\space}%
+    \printfield{year}%
+    \setunit{\addcomma\space}%
+    \printlist{location}%
+    \newunit%
+    \usebibmacro{finentry}
+  }
+  \par\vspace{0.3\baselineskip}
+}
+
+\DeclareBibliographyDriver{misc}{%
+  \entrytitlestyle{\printfield{title}}%
+  \newblock%
+  \entrypositionstyle{\printnames{author}}%
+  \par%
+  \newblock%
+  \descriptionstyle{%
+    \fontsize{8pt}{1em}\bodyfontlight\color{graytext}%
+    \printfield{booktitle}%
+    \setunit*{\addcomma\space}%
+    \printfield{note}%
+    \setunit*{\addcomma\space}%
+    \printfield{year}%
+    \setunit{\addcomma\space}%
+    \printlist{location}%
+    \newunit%
+    \usebibmacro{finentry}
+  }
+  \par\vspace{0.3\baselineskip}
+}
+
+\DeclareBibliographyDriver{report}{%
+  \entrytitlestyle{\printfield{title}}%
+  \newblock%
+  \entrypositionstyle{\printnames{author}}%
+  \par%
+  \newblock%
+  \descriptionstyle{%
+    \fontsize{8pt}{1em}\bodyfontlight\color{graytext}%
+    \printfield{type}%
+    \setunit{\space}%
+    \printfield{number}%
+    \setunit{\addcomma\space}%
+    \printfield{year}%
+    \newunit%
+    \usebibmacro{finentry}
+  }
+  \par\vspace{0.3\baselineskip}
+}
+
+\DeclareBibliographyDriver{unpublished}{%
+  \entrytitlestyle{\printfield{title}}%
+  \newblock%
+  \entrypositionstyle{\printnames{author}}%
+  \par%
+  \newblock%
+  \descriptionstyle{%
+    \fontsize{8pt}{1em}\bodyfontlight\color{graytext}%
+    \printfield{note}%
+    \setunit{\addcomma\space}%
+    \printfield{year}%
+    \newunit%
+    \usebibmacro{finentry}
+  }
+  \par\vspace{0.3\baselineskip}
+}
+
+% New syntax for flexible backend (BibLaTeX > v3.3)
+\DeclareNameFormat{author}{%
+  \fontsize{9pt}{1em}\bodyfont%
+  \renewcommand*{\multinamedelim}{\addcomma\addspace}%
+  \nameparts{#1}%
+  \ifthenelse{\value{listcount}=1}
+    {\ifblank{\namepartgiveni}{}{\namepartgiveni\space}%
+    \namepartfamily}%
+    {\ifblank{\namepartgiveni}{}{\namepartgiveni\space}%
+    \namepartfamily}%
+  \ifthenelse{\value{listcount}<\value{liststop}}
+  {\addcomma\space}
+  {}
 }

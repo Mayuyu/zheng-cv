@@ -19,6 +19,4 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 COPY --from=installer /usr/local/cargo/bin/tex-fmt \
     /usr/local/cargo/bin/starship /usr/local/bin/
 
-RUN tlmgr install fontawesome
-
 RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
